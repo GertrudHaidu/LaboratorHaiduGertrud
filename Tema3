@@ -1,0 +1,46 @@
+# Definirea datelor de intrare
+meniu = ['papanasi'] * 10 + ['ceafa'] * 3 + ["guias"] * 6
+preturi = [["papanasi", 7], ["ceafa", 10], ["guias", 5]]
+studenti = ["Liviu", "Ion", "George", "Ana", "Florica"]  # coada FIFO
+comenzi = ["guias", "ceafa", "ceafa", "papanasi", "ceafa"]  # coada FIFO
+tavi = ["tava"] * 7  # stiva LIFO
+istoric_comenzi = []
+
+while studenti and comenzi and tavi:
+    student = studenti.pop(0) 
+    comanda = comenzi.pop(0)  
+    tava = tavi.pop() 
+
+ 
+    istoric_comenzi.append(comanda)
+
+
+    print(f"{student} a comandat {comanda}.")
+
+
+produse_comandate = {"papanasi": 0, "ceafa": 0, "guias": 0}
+
+for comanda in istoric_comenzi:
+    if comanda in produse_comandate:
+        produse_comandate[comanda] += 1
+
+print(
+    f"S-au comandat {produse_comandate['guias']} guias, {produse_comandate['ceafa']} ceafa, {produse_comandate['papanasi']} papanasi.")
+
+print(f"Mai sunt {len(tavi)} tavi.")
+
+print(f"Mai este ceafa: {'ceafa' in meniu and produse_comandate['ceafa'] < meniu.count('ceafa')}.")
+print(f"Mai sunt papanasi: {'papanasi' in meniu and produse_comandate['papanasi'] < meniu.count('papanasi')}.")
+print(f"Mai sunt guias: {'guias' in meniu and produse_comandate['guias'] < meniu.count('guias')}.")
+
+total_bani = 0
+for comanda in istoric_comenzi:
+    for produs, pret in preturi:
+        if produs == comanda:
+            total_bani += pret
+
+print(f"Cantina a încasat: {total_bani} lei.")
+
+produse_ieftine = [produs for produs, pret in preturi if pret <= 7]
+
+print(f"Produse care costă cel mult 7 lei: {produse_ieftine}")
